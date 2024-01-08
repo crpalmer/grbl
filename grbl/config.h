@@ -156,7 +156,7 @@
 
 // Allows GRBL to track and report gcode line numbers.  Enabling this means that the planning buffer
 // goes from 16 to 15 to make room for the additional line number data in the plan_block_t struct
-// #define USE_LINE_NUMBERS // Disabled by default. Uncomment to enable.
+#define USE_LINE_NUMBERS // Disabled by default. Uncomment to enable.
 
 // Upon a successful probe cycle, this option provides immediately feedback of the probe coordinates
 // through an automatically generated message. If disabled, users can still access the last probe
@@ -172,7 +172,7 @@
 // immediately forces a feed hold and then safely de-energizes the machine. Resuming is blocked until
 // the safety door is re-engaged. When it is, Grbl will re-energize the machine and then resume on the
 // previous tool path, as if nothing happened.
-// #define ENABLE_SAFETY_DOOR_INPUT_PIN // Default disabled. Uncomment to enable.
+#define ENABLE_SAFETY_DOOR_INPUT_PIN // Default disabled. Uncomment to enable.
 
 // After the safety door switch has been toggled and restored, this setting sets the power-up delay
 // between restoring the spindle and coolant and resuming the cycle.
@@ -347,7 +347,7 @@
 // in mind that you will begin to lose PWM resolution with increased minimum PWM values, since you have less
 // and less range over the total 255 PWM levels to signal different spindle speeds.
 // NOTE: Compute duty cycle at the minimum PWM by this equation: (% duty cycle)=(SPINDLE_PWM_MIN_VALUE/255)*100
-// #define SPINDLE_PWM_MIN_VALUE 5 // Default disabled. Uncomment to enable. Must be greater than zero. Integer (1-255).
+#define SPINDLE_PWM_MIN_VALUE 5 // Default disabled. Uncomment to enable. Must be greater than zero. Integer (1-255).
 
 // By default on a 328p(Uno), Grbl combines the variable spindle PWM and the enable into one pin to help
 // preserve I/O pins. For certain setups, these may need to be separate pins. This configure option uses
@@ -509,7 +509,7 @@
 // written into the Arduino EEPROM via a seperate .INO sketch to contain product data. Altering this
 // macro to not restore the build info EEPROM will ensure this data is retained after firmware upgrades.
 // NOTE: Uncomment to override defaults in settings.h
-// #define SETTINGS_RESTORE_ALL (SETTINGS_RESTORE_DEFAULTS | SETTINGS_RESTORE_PARAMETERS | SETTINGS_RESTORE_STARTUP_LINES | SETTINGS_RESTORE_BUILD_INFO)
+#define SETTINGS_RESTORE_ALL (SETTINGS_RESTORE_DEFAULTS | /* SETTINGS_RESTORE_PARAMETERS | */ SETTINGS_RESTORE_STARTUP_LINES | SETTINGS_RESTORE_BUILD_INFO)
 
 // Enable the '$I=(string)' build info write command. If disabled, any existing build info data must
 // be placed into EEPROM via external means with a valid checksum value. This macro option is useful
@@ -561,7 +561,7 @@
 // NOTE: Still a work-in-progress. Machine coordinates must be in all negative space and
 // does not work with HOMING_FORCE_SET_ORIGIN enabled. Parking motion also moves only in
 // positive direction.
-// #define PARKING_ENABLE  // Default disabled. Uncomment to enable
+#define PARKING_ENABLE  // Default disabled. Uncomment to enable
 
 // Configure options for the parking motion, if enabled.
 #define PARKING_AXIS Z_AXIS // Define which axis that performs the parking motion
@@ -577,7 +577,7 @@
 // executed in sync with g-code commands. It is not a real-time command.
 // NOTE: PARKING_ENABLE is required. By default, M56 is active upon initialization. Use 
 // DEACTIVATE_PARKING_UPON_INIT to set M56 P0 as the power-up default.
-// #define ENABLE_PARKING_OVERRIDE_CONTROL   // Default disabled. Uncomment to enable
+#define ENABLE_PARKING_OVERRIDE_CONTROL   // Default disabled. Uncomment to enable
 // #define DEACTIVATE_PARKING_UPON_INIT // Default disabled. Uncomment to enable.
 
 // This option will automatically disable the laser during a feed hold by invoking a spindle stop
@@ -585,31 +585,6 @@
 // be reenabled by disabling the spindle stop override, if needed. This is purely a safety feature
 // to ensure the laser doesn't inadvertently remain powered while at a stop and cause a fire.
 #define DISABLE_LASER_DURING_HOLD // Default enabled. Comment to disable.
-
-// Enables a piecewise linear model of the spindle PWM/speed output. Requires a solution by the
-// 'fit_nonlinear_spindle.py' script in the /doc/script folder of the repo. See file comments 
-// on how to gather spindle data and run the script to generate a solution.
-// #define ENABLE_PIECEWISE_LINEAR_SPINDLE  // Default disabled. Uncomment to enable.
-
-// N_PIECES, RPM_MAX, RPM_MIN, RPM_POINTxx, and RPM_LINE_XX constants are all set and given by
-// the 'fit_nonlinear_spindle.py' script solution. Used only when ENABLE_PIECEWISE_LINEAR_SPINDLE
-// is enabled. Make sure the constant values are exactly the same as the script solution.
-// NOTE: When N_PIECES < 4, unused RPM_LINE and RPM_POINT defines are not required and omitted.
-#define N_PIECES 4  // Integer (1-4). Number of piecewise lines used in script solution.
-#define RPM_MAX  11686.4  // Max RPM of model. $30 > RPM_MAX will be limited to RPM_MAX.
-#define RPM_MIN  202.5    // Min RPM of model. $31 < RPM_MIN will be limited to RPM_MIN.
-#define RPM_POINT12  6145.4  // Used N_PIECES >=2. Junction point between lines 1 and 2.
-#define RPM_POINT23  9627.8  // Used N_PIECES >=3. Junction point between lines 2 and 3.
-#define RPM_POINT34  10813.9 // Used N_PIECES = 4. Junction point between lines 3 and 4.
-#define RPM_LINE_A1  3.197101e-03  // Used N_PIECES >=1. A and B constants of line 1.
-#define RPM_LINE_B1  -3.526076e-1
-#define RPM_LINE_A2  1.722950e-2   // Used N_PIECES >=2. A and B constants of line 2.
-#define RPM_LINE_B2  8.588176e+01
-#define RPM_LINE_A3  5.901518e-02  // Used N_PIECES >=3. A and B constants of line 3.
-#define RPM_LINE_B3  4.881851e+02
-#define RPM_LINE_A4  1.203413e-01  // Used N_PIECES = 4. A and B constants of line 4.
-#define RPM_LINE_B4  1.151360e+03
-
 
 /* ---------------------------------------------------------------------------------------
    OEM Single File Configuration Option
